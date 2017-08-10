@@ -18,8 +18,7 @@ bot.on('message', msg => {
       (!(text.search('рейт') != -1) && text.search('rate') != -1)
     ) {
       let rating = db[Math.floor(Math.random() * db.length)];
-      bot.sendMessage(msg.chat.id, '`' + rating + '`', {
-        parse_mode: 'Markdown',
+      bot.sendMessage(msg.chat.id, rating, {
         reply_to_message_id: msg.message_id
       });
       console.log(
@@ -36,38 +35,39 @@ bot.on('message', msg => {
   }
 });
 
+let timenow;
+
 bot.onText(/\/np/, msg => {
   spotify.getState(function(err, state) {
-    let now = state.position;
-    let sas =
-      Math.floor(Number(now) % 3600 / 60) +
-      ':' +
-      Math.floor(Number(now) % 3600 % 60);
-    console.log(sas);
-    return sas;
+    timenow = state.position;
+    let sec = Math.floor(Number(timenow) % 3600 % 60);
+    sec < 10 ? (sec = '0' + sec.toString()) : null;
+    timenow = Math.floor(Number(timenow) % 3600 / 60) + ':' + sec;
   });
 
   spotify.getTrack(function(err, track) {
     function secondsToHms(d) {
-      return (
-        Math.floor(Number(d) / 1000 % 3600 / 60) +
-        ':' +
-        Math.floor(Number(d) / 1000 % 3600 % 60)
-      );
+      let sec = Math.floor(Number(d) / 1000 % 3600 % 60);
+      sec < 10 ? (sec = '0' + sec.toString()) : null;
+      return Math.floor(Number(d) / 1000 % 3600 / 60) + ':' + sec;
+      console.log(track);
     }
 
-    bot.sendMessage(
-      msg.chat.id,
-      '`' +
+    bot.sendPhoto(msg.chat.id, track.artwork_url, {
+      caption:
         '🎵 ' +
         track.artist +
         ' — ' +
         track.name +
         '\n' +
-        secondsToHms(track.duration) +
-        '`',
-      { parse_mode: 'Markdown', reply_to_message_id: msg.message_id }
-    );
+        '💿 ' +
+        track.album +
+        '\n' +
+        '🕞 ' +
+        timenow +
+        ' of ' +
+        secondsToHms(track.duration)
+    });
   });
   console.log(
     chalk.green('   Sent answer') +
