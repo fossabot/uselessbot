@@ -7,6 +7,17 @@ const bot = new TelegramBot(token, { polling: true });
 
 console.log(chalk.blue('Bot works !'));
 
+function logInConsole(username, firstName, chatTitle) {
+  console.log(
+    chalk.green('   Sent answer') +
+      ' to ' +
+      chalk.green('@' + username + ' (' + firstName + ')') +
+      ' in ' +
+      chalk.green(chatTitle) +
+      ' !'
+  );
+}
+
 bot.on('message', msg => {
   if ('text' in msg || 'caption' in msg) {
     let text;
@@ -21,16 +32,15 @@ bot.on('message', msg => {
       bot.sendMessage(msg.chat.id, rating, {
         reply_to_message_id: msg.message_id
       });
-      console.log(
-        chalk.green('   Sent answer') +
-          ' to ' +
-          chalk.green(
-            '@' + msg.from.username + ' (' + msg.from.first_name + ')'
-          ) +
-          ' in ' +
-          chalk.green(msg.chat.title) +
-          ' !'
-      );
+      logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+    } else {
+      if (text.search('тян') != -1 && Math.random() >= 0.6) {
+        bot.sendMessage(msg.chat.id, '*ЭХХХХХХ, КАК ЖЕ ПЛОХО БЕЗ ТЯНОЧКИ*', {
+          parse_mode: 'Markdown',
+          reply_to_message_id: msg.message_id
+        });
+        logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+      }
     }
   }
 });
@@ -69,12 +79,5 @@ bot.onText(/\/np/, msg => {
         secondsToHms(track.duration)
     });
   });
-  console.log(
-    chalk.green('   Sent answer') +
-      ' to ' +
-      chalk.green('@' + msg.from.username + ' (' + msg.from.first_name + ')') +
-      ' in ' +
-      chalk.green(msg.chat.title) +
-      ' !'
-  );
+  logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
 });
