@@ -34,7 +34,7 @@ bot.on('message', msg => {
       });
       logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
     } else {
-      if (text.search('тян') != -1 && Math.random() >= 0.6) {
+      if (text.search('тян') != -1 && Math.random() >= 0.72) {
         bot.sendMessage(msg.chat.id, '*ЭХХХХХХ, КАК ЖЕ ПЛОХО БЕЗ ТЯНОЧКИ*', {
           parse_mode: 'Markdown',
           reply_to_message_id: msg.message_id
