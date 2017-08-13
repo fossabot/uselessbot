@@ -16,7 +16,7 @@ const logInConsole = (username, firstName, chatTitle) => {
       chalk.green(chatTitle) +
       ' !'
   );
-}
+};
 
 bot.on('message', msg => {
   if ('text' in msg || 'caption' in msg) {
@@ -56,27 +56,17 @@ bot.onText(/\/np/, msg => {
   });
 
   spotify.getTrack(function(err, track) {
-    const secondsToHms = (d) => {
+    const secondsToHms = d => {
       let sec = Math.floor(Number(d) / 1000 % 3600 % 60);
       sec < 10 ? (sec = '0' + sec.toString()) : null;
       return Math.floor(Number(d) / 1000 % 3600 / 60) + ':' + sec;
       console.log(track);
-    }
+    };
 
     bot.sendPhoto(msg.chat.id, track.artwork_url, {
-      caption:
-        '🎵 ' +
-        track.artist +
-        ' — ' +
-        track.name +
-        '\n' +
-        '💿 ' +
-        track.album +
-        '\n' +
-        '🕞 ' +
-        timenow +
-        ' of ' +
-        secondsToHms(track.duration)
+      caption: `🎵 ${track.artist} — ${track.name} \n💿 ${track.album} \n🕞 ${timenow} of ${secondsToHms(
+        track.duration
+      )}`
     });
   });
   logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
