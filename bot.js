@@ -7,7 +7,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 console.log(chalk.blue('Bot works !'));
 
-function logInConsole(username, firstName, chatTitle) {
+const logInConsole = (username, firstName, chatTitle) => {
   console.log(
     chalk.green('   Sent answer') +
       ' to ' +
@@ -56,7 +56,7 @@ bot.onText(/\/np/, msg => {
   });
 
   spotify.getTrack(function(err, track) {
-    function secondsToHms(d) {
+    const secondsToHms = (d) => {
       let sec = Math.floor(Number(d) / 1000 % 3600 % 60);
       sec < 10 ? (sec = '0' + sec.toString()) : null;
       return Math.floor(Number(d) / 1000 % 3600 / 60) + ':' + sec;
