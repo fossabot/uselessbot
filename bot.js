@@ -9,12 +9,9 @@ console.log(chalk.blue('Bot works !'));
 
 const logInConsole = (username, firstName, chatTitle) => {
   console.log(
-    chalk.green('   Sent answer') +
-      ' to ' +
-      chalk.green('@' + username + ' (' + firstName + ')') +
-      ' in ' +
-      chalk.green(chatTitle) +
-      ' !'
+    `${chalk.green('   Sent answer')} to ${chalk.green(
+      `@${username} (${firstName})`
+    )} in ${chalk.green(chatTitle)} !`
   );
 };
 
