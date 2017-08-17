@@ -5,13 +5,24 @@ const token = require('./token.json');
 const db = require('./db.json');
 const bot = new TelegramBot(token, { polling: true });
 
-console.log(chalk.blue('Bot works !'));
+console.log(chalk.blue(`Bot works !\n`));
+
+const timestampConsole = () => {
+  let date = new Date();
+  let mins = date.getMinutes();
+  let hours = date.getHours();
+  mins < 10 ? (mins = '0' + mins.toString()) : null;
+  hours < 10 ? (hours = '0' + hours.toString()) : null;
+  return `${hours}:${mins}`;
+};
 
 const logInConsole = (username, firstName, chatTitle) => {
   console.log(
-    `${chalk.green('   Sent answer')} to ${chalk.green(
-      `@${username} (${firstName})`
-    )} in ${chalk.green(chatTitle)} !`
+    `   ${chalk.blue(timestampConsole())} ${chalk.green(
+      `Sent answer`
+    )} to ${chalk.green(`@${username} (${firstName})`)} in ${chalk.green(
+      chatTitle
+    )} !`
   );
 };
 
@@ -42,14 +53,14 @@ bot.on('message', msg => {
   }
 });
 
-let timenow;
+let songtimenow;
 
 bot.onText(/\/np/, msg => {
   spotify.getState(function(err, state) {
-    timenow = state.position;
-    let sec = Math.floor(Number(timenow) % 3600 % 60);
+    songtimenow = state.position;
+    let sec = Math.floor(Number(songtimenow) % 3600 % 60);
     sec < 10 ? (sec = '0' + sec.toString()) : null;
-    timenow = Math.floor(Number(timenow) % 3600 / 60) + ':' + sec;
+    songtimenow = Math.floor(Number(songtimenow) % 3600 / 60) + ':' + sec;
   });
 
   spotify.getTrack(function(err, track) {
@@ -61,7 +72,7 @@ bot.onText(/\/np/, msg => {
     };
 
     bot.sendPhoto(msg.chat.id, track.artwork_url, {
-      caption: `🎵 ${track.artist} — ${track.name} \n💿 ${track.album} \n🕞 ${timenow} of ${secondsToHms(
+      caption: `🎵 ${track.artist} — ${track.name} \n💿 ${track.album} \n🕞 ${songtimenow} of ${secondsToHms(
         track.duration
       )}`
     });
