@@ -4,27 +4,10 @@ const chalk = require('chalk');
 const token = require('./token.json');
 const db = require('./db.json');
 const bot = new TelegramBot(token, { polling: true });
+const logInConsole = require('./logInConsole');
+const timestampConsole = require('./timestampConsole');
 
 console.log(chalk.blue(`Bot works !\n`));
-
-const timestampConsole = () => {
-  let date = new Date();
-  let mins = date.getMinutes();
-  let hours = date.getHours();
-  mins < 10 ? (mins = '0' + mins.toString()) : null;
-  hours < 10 ? (hours = '0' + hours.toString()) : null;
-  return `${hours}:${mins}`;
-};
-
-const logInConsole = (username, firstName, chatTitle) => {
-  console.log(
-    `   ${chalk.blue(timestampConsole())} ${chalk.green(
-      `Sent answer`
-    )} to ${chalk.green(`@${username} (${firstName})`)} in ${chalk.green(
-      chatTitle
-    )} !`
-  );
-};
 
 bot.on('message', msg => {
   if ('text' in msg || 'caption' in msg) {
@@ -40,14 +23,14 @@ bot.on('message', msg => {
       bot.sendMessage(msg.chat.id, rating, {
         reply_to_message_id: msg.message_id
       });
-      logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+      logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
     } else {
       if (text.search('тян') != -1 && Math.random() >= 0.72) {
         bot.sendMessage(msg.chat.id, '*ЭХХХХХХ, КАК ЖЕ ПЛОХО БЕЗ ТЯНОЧКИ*', {
           parse_mode: 'Markdown',
           reply_to_message_id: msg.message_id
         });
-        logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+        logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
       }
     }
   }
@@ -77,5 +60,5 @@ bot.onText(/\/np/, msg => {
       )}`
     });
   });
-  logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+  logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
 });
