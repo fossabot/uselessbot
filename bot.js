@@ -5,7 +5,6 @@ const token = require('./token.json');
 const db = require('./db.json');
 const bot = new TelegramBot(token, { polling: true });
 const logInConsole = require('./logInConsole');
-const timestampConsole = require('./timestampConsole');
 
 console.log(chalk.blue(`Bot works !\n`));
 
@@ -23,14 +22,22 @@ bot.on('message', msg => {
       bot.sendMessage(msg.chat.id, rating, {
         reply_to_message_id: msg.message_id
       });
-      logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+      logInConsole.logInConsole(
+        msg.from.username,
+        msg.from.first_name,
+        msg.chat.title
+      );
     } else {
       if (text.search('тян') != -1 && Math.random() >= 0.72) {
         bot.sendMessage(msg.chat.id, '*ЭХХХХХХ, КАК ЖЕ ПЛОХО БЕЗ ТЯНОЧКИ*', {
           parse_mode: 'Markdown',
           reply_to_message_id: msg.message_id
         });
-        logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+        logInConsole.logInConsole(
+          msg.from.username,
+          msg.from.first_name,
+          msg.chat.title
+        );
       }
     }
   }
@@ -60,5 +67,9 @@ bot.onText(/\/np/, msg => {
       )}`
     });
   });
-  logInConsole.logInConsole(msg.from.username, msg.from.first_name, msg.chat.title);
+  logInConsole.logInConsole(
+    msg.from.username,
+    msg.from.first_name,
+    msg.chat.title
+  );
 });
