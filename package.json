@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "spotify-node-applescript": " ^1.1.0",
     "chalk": "^2.0.1",
-    "node-telegram-bot-api": "^0.27.1"
+    "telegraf": "^3.12.0"
   }
 }
