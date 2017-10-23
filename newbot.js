@@ -44,6 +44,6 @@ bot.use((ctx) => {
     });
     logIn(ctx.message.from.username, ctx.message.from.first_name, ctx.message.chat.title);
   }
-})
+});
 
 bot.startPolling();
