@@ -10,6 +10,6 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "start": "newbot.js --exec babel-node"
+    "start": "node newbot.js --exec babel-node"
   }
 }
