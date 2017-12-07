@@ -21,6 +21,17 @@ bot.hears(/(рейт)|(rate)/i, ctx => {
   );
 });
 
+bot.hears(/(биткоин)|(биток)|(bitcoin)|(крипта)|(курс)|(биржа)/i, ctx => {
+  ctx.replyWithSticker(`CAADAgADywkAAqWUAgABRVA_Zn1CUrMC`, {
+    reply_to_message_id: ctx.message.message_id
+  });
+  logIn(
+    ctx.message.from.username,
+    ctx.message.from.first_name,
+    ctx.message.chat.title
+  );
+});
+
 bot.hears(/(^тян)/i, ctx => {
   Math.random() >= 0.66
     ? ctx.reply(`*ЭХХХХХХ, КАК ЖЕ ПЛОХО БЕЗ ТЯНОЧКИ*`, {
